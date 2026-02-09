@@ -28,34 +28,44 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ news, children, className }: NewsCardProps) {
+    const impactColor = news.impact === 'high'
+        ? 'hover:shadow-[0_0_30px_-5px_rgba(239,68,68,0.3)] hover:border-red-500/30'
+        : 'hover:shadow-[0_0_30px_-5px_rgba(234,179,8,0.3)] hover:border-yellow-500/30'
+
     return (
         <NewsContext.Provider value={{ news }}>
-            <Card className={`glass-card hover:scale-[1.02] transition-transform duration-300 ${className}`}>
+            <Card className={`glass-card group relative overflow-hidden transition-all duration-500 ${impactColor} ${className}`}>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 {children}
             </Card>
         </NewsContext.Provider>
     )
 }
 
-// 2. Sub-components
+// 2. Sub-components - Exported separately for Next.js Server Components compatibility
 
 // HEADER: Time, Title, Impact
-function Header() {
+export function NewsCardHeader() {
     const { news } = useNewsContext()
 
     return (
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-2 relative z-10">
             <div className="flex justify-between items-start">
-                <div className="flex flex-col gap-1">
-                    <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">
-                        {formatEvent(news.eventTimeUTC)}
-                    </span>
-                    <h3 className="text-lg font-bold text-zinc-100 leading-tight">
+                <div className="flex flex-col gap-1.5">
+                    <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border border-white/5 px-1.5 py-0.5 rounded bg-black/20">
+                            {formatEvent(news.eventTimeUTC)}
+                        </span>
+                        {news.impact === 'high' && (
+                            <AlertTriangle className="w-3 h-3 text-red-500 animate-pulse" />
+                        )}
+                    </div>
+                    <h3 className="text-lg font-bold text-zinc-100 leading-tight tracking-tight group-hover:text-glow transition-all duration-300">
                         {news.title}
                     </h3>
                 </div>
-                <Badge variant={news.impact as any} className="ml-2 capitalize">
-                    {news.impact} Impact
+                <Badge variant={news.impact as any} className="ml-2 capitalize shadow-lg">
+                    {news.impact}
                 </Badge>
             </div>
         </CardHeader>
@@ -63,25 +73,24 @@ function Header() {
 }
 
 // META: Forecast vs Previous
-function Meta() {
+export function NewsCardMeta() {
     const { news } = useNewsContext()
 
-    // Only render if data exists
     if (!news.forecast && !news.previous) return null
 
     return (
-        <CardContent className="py-2">
-            <div className="flex gap-4 text-sm">
+        <CardContent className="py-3 relative z-10">
+            <div className="grid grid-cols-2 gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
                 {news.previous && (
-                    <div className="flex flex-col">
-                        <span className="text-zinc-500 text-xs">Previous</span>
-                        <span className="font-mono text-zinc-300">{news.previous}</span>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">Previous</span>
+                        <span className="font-mono text-sm text-zinc-300">{news.previous}</span>
                     </div>
                 )}
                 {news.forecast && (
-                    <div className="flex flex-col">
-                        <span className="text-zinc-500 text-xs">Forecast</span>
-                        <span className="font-mono text-zinc-100">{news.forecast}</span>
+                    <div className="flex flex-col gap-1 border-l border-white/5 pl-4">
+                        <span className="text-[10px] uppercase tracking-wider text-primary/70 font-semibold">Forecast</span>
+                        <span className="font-mono text-sm text-primary font-bold">{news.forecast}</span>
                     </div>
                 )}
             </div>
@@ -90,36 +99,41 @@ function Meta() {
 }
 
 // AI: Analysis block
-function AI() {
+export function NewsCardAI() {
     const { news } = useNewsContext()
 
     return (
-        <CardFooter className="pt-2 pb-6 flex-col items-start gap-3 border-t border-white/5 mt-2 bg-black/20 rounded-b-xl">
-            <div className="flex items-center gap-2 w-full">
-                <Bot className="w-4 h-4 text-primary" />
-                <span className="text-xs font-semibold text-primary tracking-wide">AI OUTLOOK</span>
-                <div className="ml-auto flex gap-2">
-                    <Badge variant={news.aiBias as any} className="text-[10px] px-1.5 py-0">
-                        Bias: {news.aiBias}
-                    </Badge>
-                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-white/10 text-zinc-400">
-                        Vol: {news.aiVolatility}
-                    </Badge>
+        <CardFooter className="pt-0 pb-0 px-0 flex-col items-start mt-2 relative z-10">
+            <div className="w-full bg-zinc-950/30 border-t border-white/5 p-4 backdrop-blur-sm">
+                <div className="flex items-center gap-2 w-full mb-3">
+                    <Bot className="w-3.5 h-3.5 text-primary animate-pulse" />
+                    <span className="text-[10px] font-bold text-primary tracking-widest uppercase">AI Analysis</span>
+                    <div className="ml-auto flex gap-1.5 opacity-80 hover:opacity-100 transition-opacity">
+                        <Badge variant={news.aiBias as any} className="text-[9px] px-1.5 py-0 rounded-sm uppercase tracking-wider">
+                            {news.aiBias}
+                        </Badge>
+                        <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-white/10 text-zinc-400 font-mono tracking-tighter">
+                            VOL: {news.aiVolatility.toUpperCase()}
+                        </Badge>
+                    </div>
                 </div>
-            </div>
 
-            <p className="text-sm text-zinc-400 italic leading-relaxed">
-                "{news.aiComment}"
-            </p>
+                <div className="relative pl-3 border-l-2 border-primary/20">
+                    <p className="text-xs text-zinc-300 leading-relaxed font-mono">
+                        "{news.aiComment}"
+                    </p>
+                </div>
 
-            <div className="w-full flex justify-end">
-                <span className="text-[10px] text-zinc-600">Confidence: {news.aiConfidence}%</span>
+                <div className="mt-3 flex justify-end items-center gap-1.5">
+                    <div className="h-1 w-12 bg-zinc-800 rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-primary/50 rounded-full transition-all duration-1000"
+                            style={{ width: `${news.aiConfidence}%` }}
+                        />
+                    </div>
+                    <span className="text-[9px] text-zinc-600 font-mono">{news.aiConfidence}% CONF</span>
+                </div>
             </div>
         </CardFooter>
     )
 }
-
-// Attach sub-components
-NewsCard.Header = Header
-NewsCard.Meta = Meta
-NewsCard.AI = AI

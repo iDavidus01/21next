@@ -1,11 +1,10 @@
-
 "use client"
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Filter, CheckCircle2 } from "lucide-react"
+import { Filter, CheckCircle2, Settings2, Zap } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -22,28 +21,21 @@ import { Slider } from "@/components/ui/slider"
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
 
-// ✅ Zod schema with refine
 const formSchema = z.object({
     sessions: z.array(z.string()).refine((value) => value.length > 0, {
-        message: "You have to select at least one session.",
+        message: "Select at least one session.",
     }),
     impact: z.array(z.string()).refine((value) => value.length > 0, {
-        message: "You have to select at least one impact level.",
+        message: "Select at least one impact.",
     }),
-    confidenceThreshold: z.number().min(0).max(100).refine((v) => v >= 50, {
-        message: "Confidence threshold must be at least 50%."
-    }),
+    confidenceThreshold: z.number().min(0).max(100),
 })
 
 export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof formSchema>) => void }) {
-    const [step, setStep] = useState(1)
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -54,179 +46,147 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Mimic reCAPTCHA check or final step validation
-        console.log("Form Submitted:", values)
+        console.log("Filters Applied:", values)
         if (onFilter) onFilter(values)
     }
 
-    const nextStep = async () => {
-        // Validate current step fields before moving
-        const isValid = await form.trigger(["sessions", "impact"])
-        if (isValid) setStep(2)
-    }
-
     return (
-        <Card className="glass-card w-full max-w-md mx-auto">
-            <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                    <Filter className="w-5 h-5 text-primary" />
-                    Dashboard Filters
+        <Card className="border-0 bg-transparent shadow-none">
+            <CardHeader className="px-0 pt-0 pb-4">
+                <CardTitle className="text-sm font-mono uppercase tracking-wider text-zinc-500 flex items-center gap-2">
+                    <Settings2 className="w-4 h-4" />
+                    Feed Configuration
                 </CardTitle>
-                <CardDescription>
-                    Customize your Futures feed. Step {step} of 2.
-                </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-0">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-                        {step === 1 && (
-                            <div className="space-y-4 animate-in slide-in-from-left-4 fade-in duration-300">
-                                <FormField
-                                    control={form.control}
-                                    name="sessions"
-                                    render={() => (
-                                        <FormItem>
-                                            <div className="mb-4">
-                                                <FormLabel className="text-base">Target Sessions</FormLabel>
-                                                <FormDescription>
-                                                    Select which market sessions to analyze.
-                                                </FormDescription>
-                                            </div>
-                                            <div className="flex flex-col gap-2">
-                                                {["Asia", "London", "New York"].map((item) => (
-                                                    <FormField
+                        {/* Session Selection */}
+                        <FormField
+                            control={form.control}
+                            name="sessions"
+                            render={() => (
+                                <FormItem>
+                                    <FormLabel className="text-xs text-zinc-400 font-semibold mb-2 block">SESSIONS</FormLabel>
+                                    <div className="grid grid-cols-1 gap-2">
+                                        {["Asia", "London", "New York"].map((item) => (
+                                            <FormField
+                                                key={item}
+                                                control={form.control}
+                                                name="sessions"
+                                                render={({ field }) => (
+                                                    <FormItem
                                                         key={item}
-                                                        control={form.control}
-                                                        name="sessions"
-                                                        render={({ field }) => {
-                                                            return (
-                                                                <FormItem
-                                                                    key={item}
-                                                                    className="flex flex-row items-start space-x-3 space-y-0"
-                                                                >
-                                                                    <FormControl>
-                                                                        <Checkbox
-                                                                            checked={field.value?.includes(item)}
-                                                                            onCheckedChange={(checked: boolean | string) => {
-                                                                                return checked
-                                                                                    ? field.onChange([...field.value, item])
-                                                                                    : field.onChange(
-                                                                                        field.value?.filter(
-                                                                                            (value) => value !== item
-                                                                                        )
-                                                                                    )
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                    <FormLabel className="font-normal">
-                                                                        {item}
-                                                                    </FormLabel>
-                                                                </FormItem>
-                                                            )
-                                                        }}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                                        className={`flex flex-row items-center space-x-3 space-y-0 p-3 rounded-lg border transition-all ${field.value?.includes(item)
+                                                            ? 'bg-white/10 border-white/20'
+                                                            : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-blue-500/30'
+                                                            }`}
+                                                    >
+                                                        <FormControl>
+                                                            <Checkbox
+                                                                checked={field.value?.includes(item)}
+                                                                onCheckedChange={(checked) => {
+                                                                    return checked
+                                                                        ? field.onChange([...field.value, item])
+                                                                        : field.onChange(
+                                                                            field.value?.filter(
+                                                                                (value) => value !== item
+                                                                            )
+                                                                        )
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                        <FormLabel className="font-mono text-sm cursor-pointer flex-1">
+                                                            {item}
+                                                        </FormLabel>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        ))}
+                                    </div>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                                <FormField
-                                    control={form.control}
-                                    name="impact"
-                                    render={() => (
-                                        <FormItem>
-                                            <div className="mb-4">
-                                                <FormLabel className="text-base">Impact Level</FormLabel>
-                                            </div>
-                                            <div className="flex flex-row gap-4">
-                                                {["medium", "high"].map((item) => (
-                                                    <FormField
+                        {/* Impact Selection */}
+                        <FormField
+                            control={form.control}
+                            name="impact"
+                            render={() => (
+                                <FormItem>
+                                    <FormLabel className="text-xs text-zinc-400 font-semibold mb-2 block">IMPACT LEVEL</FormLabel>
+                                    <div className="flex gap-2">
+                                        {["medium", "high"].map((item) => (
+                                            <FormField
+                                                key={item}
+                                                control={form.control}
+                                                name="impact"
+                                                render={({ field }) => (
+                                                    <FormItem
                                                         key={item}
-                                                        control={form.control}
-                                                        name="impact"
-                                                        render={({ field }) => {
-                                                            return (
-                                                                <FormItem
-                                                                    key={item}
-                                                                    className="flex flex-row items-center space-x-2 space-y-0"
-                                                                >
-                                                                    <FormControl>
-                                                                        <Checkbox
-                                                                            checked={field.value?.includes(item)}
-                                                                            onCheckedChange={(checked: boolean | string) => {
-                                                                                return checked
-                                                                                    ? field.onChange([...field.value, item])
-                                                                                    : field.onChange(
-                                                                                        field.value?.filter(
-                                                                                            (value) => value !== item
-                                                                                        )
-                                                                                    )
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                    <FormLabel className="font-normal capitalize">
-                                                                        {item}
-                                                                    </FormLabel>
-                                                                </FormItem>
-                                                            )
-                                                        }}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        )}
-
-                        {step === 2 && (
-                            <div className="space-y-6 animate-in slide-in-from-right-4 fade-in duration-300">
-                                <FormField
-                                    control={form.control}
-                                    name="confidenceThreshold"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-base">Min AI Confidence: {field.value}%</FormLabel>
-                                            <FormControl>
-                                                <Slider
-                                                    min={0}
-                                                    max={100}
-                                                    step={1}
-                                                    defaultValue={[field.value]}
-                                                    onValueChange={(vals) => field.onChange(vals[0])}
-                                                    className="py-4"
-                                                />
-                                            </FormControl>
-                                            <FormDescription>
-                                                Filter out low confidence AI predictions.
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        )}
-
-                        <div className="flex justify-between pt-4">
-                            {step === 2 && (
-                                <Button type="button" variant="outline" onClick={() => setStep(1)} className="border-white/10 hover:bg-white/5">
-                                    Back
-                                </Button>
+                                                        className={`flex-1 flex flex-row items-center justify-center space-x-2 space-y-0 p-2 rounded-lg border cursor-pointer transition-all ${field.value?.includes(item)
+                                                            ? item === 'high' ? 'bg-red-950/40 border-red-500/50 text-red-200' : 'bg-yellow-950/40 border-yellow-500/50 text-yellow-200'
+                                                            : 'bg-white/5 border-white/5 text-zinc-400 hover:bg-white/10'
+                                                            }`}
+                                                    >
+                                                        <FormControl>
+                                                            <Checkbox
+                                                                checked={field.value?.includes(item)}
+                                                                className="hidden"
+                                                                onCheckedChange={(checked) => {
+                                                                    return checked
+                                                                        ? field.onChange([...field.value, item])
+                                                                        : field.onChange(
+                                                                            field.value?.filter(
+                                                                                (value) => value !== item
+                                                                            )
+                                                                        )
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                        <FormLabel className="text-xs font-bold uppercase tracking-wider cursor-pointer">
+                                                            {item}
+                                                        </FormLabel>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        ))}
+                                    </div>
+                                    <FormMessage />
+                                </FormItem>
                             )}
-                            {step === 1 ? (
-                                <Button type="button" onClick={nextStep} className="ml-auto bg-primary text-black hover:bg-primary/90">
-                                    Next Step
-                                </Button>
-                            ) : (
-                                <Button type="submit" className="ml-auto bg-primary text-black hover:bg-primary/90">
-                                    <CheckCircle2 className="mr-2 h-4 w-4" /> Apply Filters
-                                </Button>
+                        />
+
+                        {/* Confidence Threshold */}
+                        <FormField
+                            control={form.control}
+                            name="confidenceThreshold"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <div className="flex justify-between items-center mb-2">
+                                        <FormLabel className="text-xs text-zinc-400 font-semibold">MIN CONFIDENCE</FormLabel>
+                                        <span className="text-xs font-mono text-primary font-bold">{field.value}%</span>
+                                    </div>
+                                    <FormControl>
+                                        <Slider
+                                            min={0}
+                                            max={100}
+                                            step={1}
+                                            defaultValue={[field.value]}
+                                            onValueChange={(vals) => field.onChange(vals[0])}
+                                            className="py-2"
+                                        />
+                                    </FormControl>
+                                </FormItem>
                             )}
-                        </div>
+                        />
+
+                        <Button type="submit" className="w-full bg-primary text-black hover:bg-primary/90 font-bold tracking-wide shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary),0.5)] transition-all">
+                            <Zap className="w-4 h-4 mr-2" />
+                            UPDATE FEED
+                        </Button>
 
                     </form>
                 </Form>

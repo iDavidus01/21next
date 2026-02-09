@@ -17,13 +17,13 @@ export function formatEvent(date: Date | string): string {
         return 'Invalid Date';
     }
 
-    // Format: HH:mm UTC • DD MMM
+    // Format: HH:mm NY • DD MMM
     return new Intl.DateTimeFormat('en-US', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
         day: '2-digit',
         month: 'short',
-        timeZone: 'UTC',
-    }).format(d) + ' UTC';
+        timeZone: 'America/New_York',
+    }).format(d) + ' NY';
 }

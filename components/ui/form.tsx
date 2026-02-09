@@ -2,18 +2,12 @@
 "use client"
 
 import * as React from "react"
-import { useFormContext, Controller, ControllerProps, FieldPath, FieldValues } from "react-hook-form"
+import { useFormContext, Controller, ControllerProps, FieldPath, FieldValues, FormProvider } from "react-hook-form"
 import { Slot } from "@radix-ui/react-slot"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 
-const Form = React.forwardRef<
-    HTMLFormElement,
-    React.FormHTMLAttributes<HTMLFormElement>
->(({ className, ...props }, ref) => (
-    <form ref={ref} className={cn("space-y-6", className)} {...props} />
-))
-Form.displayName = "Form"
+const Form = FormProvider
 
 const FormItemContext = React.createContext<FormItemContextValue>(
     {} as FormItemContextValue
