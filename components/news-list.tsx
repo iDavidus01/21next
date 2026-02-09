@@ -12,9 +12,9 @@ interface NewsListProps {
 
 export function NewsList({ initialNews }: NewsListProps) {
     const [filters, setFilters] = useState({
-        sessions: ["London", "New York"],
-        impact: ["high"],
-        confidenceThreshold: 70
+        sessions: ["Asia", "London", "New York"],
+        impact: ["medium", "high"],
+        confidenceThreshold: 0
     })
 
     // Filter news based on current filters

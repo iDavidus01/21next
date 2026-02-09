@@ -39,9 +39,9 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            sessions: ["London", "New York"],
-            impact: ["high"],
-            confidenceThreshold: 70,
+            sessions: ["Asia", "London", "New York"],
+            impact: ["medium", "high"],
+            confidenceThreshold: 0,
         },
     })
 

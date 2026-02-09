@@ -1,5 +1,7 @@
 
+
 import { Suspense } from 'react';
+import Image from 'next/image';
 import { getMarketContext } from '@/lib/ai';
 import { scrapeForexFactory } from '@/lib/scraper';
 import { UsdFuturesNews } from '@/lib/types';
@@ -7,7 +9,8 @@ import { NewsList } from '@/components/news-list';
 import { VolatilityChart } from '@/components/volatility-chart';
 import { Badge } from '@/components/ui/badge';
 import { NYClock } from '@/components/ny-clock';
-import { Activity, Layers, ArrowUpRight } from 'lucide-react';
+import { Layers, ArrowUpRight } from 'lucide-react';
+
 
 
 export const dynamic = 'force-dynamic'; // Use dynamic rendering
@@ -54,8 +57,14 @@ async function Dashboard() {
         <header className="flex flex-col md:flex-row justify-between items-end border-b border-white/5 pb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-[0_0_15px_rgba(var(--primary),0.3)]">
-                <Activity className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-600/5 flex items-center justify-center border border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-105">
+                <Image
+                  src="/logo.svg"
+                  alt="FUTURES.AI Logo"
+                  width={32}
+                  height={32}
+                  className="drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+                />
               </div>
               <h1 className="text-5xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-500">
                 FUTURES<span className="text-primary">.AI</span>
