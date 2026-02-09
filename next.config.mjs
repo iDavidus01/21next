@@ -7,6 +7,9 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    experimental: {
+        serverComponentsExternalPackages: ['cheerio'],
+    },
 };
 
 export default nextConfig;

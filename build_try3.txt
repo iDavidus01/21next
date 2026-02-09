@@ -1,0 +1,63 @@
+
+> 21next@0.1.0 build
+> next build
+
+   Ôľ▓ Next.js 14.0.0
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./app/globals.css
+Error: It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+    at lt (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\tailwindcss\dist\lib.js:38:1643)
+    at LazyResult.runOnRoot (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:329:16)
+    at LazyResult.runAsync (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:258:26)
+    at LazyResult.async (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:160:30)
+    at LazyResult.then (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:404:17)
+
+Import trace for requested module:
+./app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./app/globals.css
+./app/globals.css
+
+./app/globals.css
+Error: It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+    at lt (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\tailwindcss\dist\lib.js:38:1643)
+    at LazyResult.runOnRoot (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:329:16)
+    at LazyResult.runAsync (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:258:26)
+    at LazyResult.async (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:160:30)
+    at LazyResult.then (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:404:17)
+    at tryRunOrWebpackError (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:311563)
+    at __webpack_require_module__ (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:131195)
+    at __nested_webpack_require_153754__ (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:130634)
+    at C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:131487
+    at symbolIterator (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\neo-async\async.js:1:14444)
+    at done (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\neo-async\async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:13:28867), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:13:26021)
+    at C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:130354
+    at symbolIterator (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\neo-async\async.js:1:14402)
+-- inner error --
+Error: It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+    at lt (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\tailwindcss\dist\lib.js:38:1643)
+    at LazyResult.runOnRoot (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:329:16)
+    at LazyResult.runAsync (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:258:26)
+    at LazyResult.async (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:160:30)
+    at LazyResult.then (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\node_modules\postcss\lib\lazy-result.js:404:17)
+    at Object.<anonymous> (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[12].oneOf[12].use[2]!C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[12].oneOf[12].use[3]!C:\Users\DavidSadowski\Documents\GitHub\21next\app\globals.css:1:7)
+    at C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:915116
+    at Hook.eval [as call] (eval at create (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:13:28645), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:13:25915)
+    at C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:131228
+    at tryRunOrWebpackError (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:311517)
+    at __webpack_require_module__ (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:131195)
+    at __nested_webpack_require_153754__ (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:130634)
+    at C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\webpack\bundle5.js:28:131487
+    at symbolIterator (C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\compiled\neo-async\async.js:1:14444)
+
+Generated code for C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[12].oneOf[12].use[2]!C:\Users\DavidSadowski\Documents\GitHub\21next\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[12].oneOf[12].use[3]!C:\Users\DavidSadowski\Documents\GitHub\21next\app\globals.css
+
+Import trace for requested module:
+./app/globals.css
+
+
+> Build failed because of webpack errors
