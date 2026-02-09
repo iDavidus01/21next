@@ -1,85 +1,85 @@
 {
-    "lastUpdated": "2026-02-09T11:45:00.000Z",
-    "news": [
-        {
-            "id": "ff-core-retail-sales-m/m-02-10-2026",
-            "title": "Core Retail Sales m/m",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-10T13:30:00.000Z",
-            "forecast": "0.4%",
-            "previous": "0.5%"
-        },
-        {
-            "id": "ff-retail-sales-m/m-02-10-2026",
-            "title": "Retail Sales m/m",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-10T13:30:00.000Z",
-            "forecast": "0.4%",
-            "previous": "0.6%"
-        },
-        {
-            "id": "ff-employment-cost-index-q/q-02-10-2026",
-            "title": "Employment Cost Index q/q",
-            "impact": "medium",
-            "eventTimeUTC": "2026-02-10T13:30:00.000Z",
-            "forecast": "0.8%",
-            "previous": "0.8%"
-        },
-        {
-            "id": "ff-average-hourly-earnings-m/m-02-11-2026",
-            "title": "Average Hourly Earnings m/m",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-11T13:30:00.000Z",
-            "forecast": "0.3%",
-            "previous": "0.3%"
-        },
-        {
-            "id": "ff-non-farm-employment-change-02-11-2026",
-            "title": "Non-Farm Employment Change",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-11T13:30:00.000Z",
-            "forecast": "70K",
-            "previous": "50K"
-        },
-        {
-            "id": "ff-unemployment-rate-02-11-2026",
-            "title": "Unemployment Rate",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-11T13:30:00.000Z",
-            "forecast": "4.4%",
-            "previous": "4.4%"
-        },
-        {
-            "id": "ff-unemployment-claims-02-12-2026",
-            "title": "Unemployment Claims",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-12T13:30:00.000Z",
-            "forecast": "222K",
-            "previous": "231K"
-        },
-        {
-            "id": "ff-core-cpi-m/m-02-13-2026",
-            "title": "Core CPI m/m",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-13T13:30:00.000Z",
-            "forecast": "0.3%",
-            "previous": "0.2%"
-        },
-        {
-            "id": "ff-cpi-m/m-02-13-2026",
-            "title": "CPI m/m",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-13T13:30:00.000Z",
-            "forecast": "0.3%",
-            "previous": "0.3%"
-        },
-        {
-            "id": "ff-cpi-y/y-02-13-2026",
-            "title": "CPI y/y",
-            "impact": "high",
-            "eventTimeUTC": "2026-02-13T13:30:00.000Z",
-            "forecast": "2.5%",
-            "previous": "2.7%"
-        }
-    ]
+  "lastUpdated": "2026-02-09T12:46:03.440Z",
+  "news": [
+    {
+      "id": "ff-core-retail-sales-m/m-02-10-2026",
+      "title": "Core Retail Sales m/m",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-10T18:30:00.000Z",
+      "forecast": "0.4%",
+      "previous": "0.5%"
+    },
+    {
+      "id": "ff-retail-sales-m/m-02-10-2026",
+      "title": "Retail Sales m/m",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-10T18:30:00.000Z",
+      "forecast": "0.4%",
+      "previous": "0.6%"
+    },
+    {
+      "id": "ff-employment-cost-index-q/q-02-10-2026",
+      "title": "Employment Cost Index q/q",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-10T18:30:00.000Z",
+      "forecast": "0.8%",
+      "previous": "0.8%"
+    },
+    {
+      "id": "ff-average-hourly-earnings-m/m-02-11-2026",
+      "title": "Average Hourly Earnings m/m",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-11T18:30:00.000Z",
+      "forecast": "0.3%",
+      "previous": "0.3%"
+    },
+    {
+      "id": "ff-non-farm-employment-change-02-11-2026",
+      "title": "Non-Farm Employment Change",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-11T18:30:00.000Z",
+      "forecast": "70K",
+      "previous": "50K"
+    },
+    {
+      "id": "ff-unemployment-rate-02-11-2026",
+      "title": "Unemployment Rate",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-11T18:30:00.000Z",
+      "forecast": "4.4%",
+      "previous": "4.4%"
+    },
+    {
+      "id": "ff-unemployment-claims-02-12-2026",
+      "title": "Unemployment Claims",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-12T18:30:00.000Z",
+      "forecast": "222K",
+      "previous": "231K"
+    },
+    {
+      "id": "ff-core-cpi-m/m-02-13-2026",
+      "title": "Core CPI m/m",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-13T18:30:00.000Z",
+      "forecast": "0.3%",
+      "previous": "0.2%"
+    },
+    {
+      "id": "ff-cpi-m/m-02-13-2026",
+      "title": "CPI m/m",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-13T18:30:00.000Z",
+      "forecast": "0.3%",
+      "previous": "0.3%"
+    },
+    {
+      "id": "ff-cpi-y/y-02-13-2026",
+      "title": "CPI y/y",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-13T18:30:00.000Z",
+      "forecast": "2.5%",
+      "previous": "2.7%"
+    }
+  ]
 }

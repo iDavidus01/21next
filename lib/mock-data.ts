@@ -1,19 +1,22 @@
+
 import { UsdFuturesNews, Impact } from './types';
 
-// Mock data for when Forex Factory blocks requests or for testing
 export function getMockNewsData(): Partial<UsdFuturesNews>[] {
     const now = new Date();
 
-    // Create dates for different sessions
-    const createDate = (hoursFromNow: number, nyHour: number, nyMinute: number = 30) => {
-        const date = new Date(now);
-        date.setHours(date.getHours() + hoursFromNow);
-        date.setHours(nyHour, nyMinute, 0, 0);
-        return date;
+    const createDate = (daysFromNow: number, nyHour: number, nyMinute: number = 30) => {
+        const d = new Date(now);
+        d.setDate(d.getDate() + daysFromNow);
+        const year = d.getFullYear();
+        const month = (d.getMonth() + 1).toString().padStart(2, '0');
+        const day = d.getDate().toString().padStart(2, '0');
+        const h = nyHour.toString().padStart(2, '0');
+        const m = nyMinute.toString().padStart(2, '0');
+
+        return new Date(`${year}-${month}-${day}T${h}:${m}:00-05:00`);
     };
 
     const mockNews: Partial<UsdFuturesNews>[] = [
-        // Today - NY Session (9:30 AM - 4:00 PM NY time)
         {
             id: 'mock-cpi-1',
             title: 'Core CPI m/m',
@@ -54,8 +57,6 @@ export function getMockNewsData(): Partial<UsdFuturesNews>[] {
             forecast: '1.48M',
             previous: '1.45M',
         },
-
-        // Tomorrow - London Session (3:00 AM - 12:00 PM NY time)
         {
             id: 'mock-gdp-1',
             title: 'GDP q/q',
@@ -88,8 +89,6 @@ export function getMockNewsData(): Partial<UsdFuturesNews>[] {
             forecast: '79.5',
             previous: '78.8',
         },
-
-        // Day After Tomorrow
         {
             id: 'mock-nfp-1',
             title: 'Non-Farm Employment Change',

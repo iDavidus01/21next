@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from "react"
@@ -46,7 +47,6 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Filters Applied:", values)
         if (onFilter) onFilter(values)
     }
 
@@ -61,8 +61,6 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
             <CardContent className="px-0">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
-                        {/* Session Selection */}
                         <FormField
                             control={form.control}
                             name="sessions"
@@ -78,10 +76,7 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                                                 render={({ field }) => (
                                                     <FormItem
                                                         key={item}
-                                                        className={`flex flex-row items-center space-x-3 space-y-0 p-3 rounded-lg border transition-all ${field.value?.includes(item)
-                                                            ? 'bg-white/10 border-white/20'
-                                                            : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-blue-500/30'
-                                                            }`}
+                                                        className="flex flex-row items-center space-x-3 space-y-0 bg-white/5 p-3 rounded-lg border border-white/5 transition-all hover:bg-white/10"
                                                     >
                                                         <FormControl>
                                                             <Checkbox
@@ -110,7 +105,6 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                             )}
                         />
 
-                        {/* Impact Selection */}
                         <FormField
                             control={form.control}
                             name="impact"
@@ -159,7 +153,6 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                             )}
                         />
 
-                        {/* Confidence Threshold */}
                         <FormField
                             control={form.control}
                             name="confidenceThreshold"
@@ -187,7 +180,6 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                             <Zap className="w-4 h-4 mr-2" />
                             UPDATE FEED
                         </Button>
-
                     </form>
                 </Form>
             </CardContent>

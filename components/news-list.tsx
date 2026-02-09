@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useMemo } from "react"
@@ -17,20 +18,16 @@ export function NewsList({ initialNews }: NewsListProps) {
         confidenceThreshold: 0
     })
 
-    // Filter news based on current filters
     const filteredNews = useMemo(() => {
         return initialNews.filter(item => {
-            // Filter by impact
             if (!filters.impact.includes(item.impact)) {
                 return false
             }
 
-            // Filter by confidence threshold
             if (item.aiConfidence < filters.confidenceThreshold) {
                 return false
             }
 
-            // Filter by session (based on time in NY)
             const d = new Date(item.eventTimeUTC)
             const nyHour = parseInt(new Intl.DateTimeFormat('en-US', {
                 hour: 'numeric',
@@ -57,13 +54,9 @@ export function NewsList({ initialNews }: NewsListProps) {
 
     return (
         <>
-            {/* Filters (Sticky) */}
             <aside className="xl:col-span-1 xl:sticky xl:top-8 space-y-8">
                 <div className="glass-card rounded-xl p-6 relative overflow-hidden group hover:border-blue-500/50 transition-all duration-500">
-                    {/* Subtle overlay gradient */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    {/* Content */}
                     <div className="relative z-10">
                         <FilterForm onFilter={setFilters} />
                     </div>
@@ -85,7 +78,6 @@ export function NewsList({ initialNews }: NewsListProps) {
                 </div>
             </aside>
 
-            {/* News Feed */}
             <main className="xl:col-span-3 space-y-6">
                 <div className="flex items-center justify-between">
                     <h3 className="text-xl font-semibold text-white flex items-center gap-2">

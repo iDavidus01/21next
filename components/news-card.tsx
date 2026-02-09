@@ -4,12 +4,10 @@
 import * as React from "react"
 import { formatEvent } from "@/lib/utils"
 import { UsdFuturesNews } from "@/lib/types"
-// We need to import badges and components
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Bot, TrendingUp, AlertTriangle, Info } from "lucide-react"
 
-// Create context for Compound Component
 const NewsContext = React.createContext<{ news: UsdFuturesNews } | null>(null)
 
 function useNewsContext() {
@@ -20,7 +18,6 @@ function useNewsContext() {
     return context
 }
 
-// 1. Root Component
 interface NewsCardProps {
     news: UsdFuturesNews
     children: React.ReactNode
@@ -42,9 +39,6 @@ export function NewsCard({ news, children, className }: NewsCardProps) {
     )
 }
 
-// 2. Sub-components - Exported separately for Next.js Server Components compatibility
-
-// HEADER: Time, Title, Impact
 export function NewsCardHeader() {
     const { news } = useNewsContext()
 
@@ -72,7 +66,6 @@ export function NewsCardHeader() {
     )
 }
 
-// META: Forecast vs Previous
 export function NewsCardMeta() {
     const { news } = useNewsContext()
 
@@ -98,7 +91,6 @@ export function NewsCardMeta() {
     )
 }
 
-// AI: Analysis block
 export function NewsCardAI() {
     const { news } = useNewsContext()
 
@@ -108,9 +100,12 @@ export function NewsCardAI() {
                 <div className="flex items-center gap-2 w-full mb-3">
                     <Bot className="w-3.5 h-3.5 text-primary animate-pulse" />
                     <span className="text-[10px] font-bold text-primary tracking-widest uppercase">AI Analysis</span>
+                    <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-blue-500/30 text-blue-400 font-mono">
+                        IMPACT: {news.aiEventScore}/10
+                    </Badge>
                     <div className="ml-auto flex gap-1.5 opacity-80 hover:opacity-100 transition-opacity">
                         <Badge variant={news.aiBias as any} className="text-[9px] px-1.5 py-0 rounded-sm uppercase tracking-wider">
-                            {news.aiBias}
+                            {news.aiBias === 'bullish' ? 'BULLISH' : news.aiBias === 'bearish' ? 'BEARISH' : 'NEUTRAL'}
                         </Badge>
                         <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-white/10 text-zinc-400 font-mono tracking-tighter">
                             VOL: {news.aiVolatility.toUpperCase()}

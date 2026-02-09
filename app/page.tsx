@@ -1,5 +1,4 @@
 
-
 import { Suspense } from 'react';
 import Image from 'next/image';
 import { getMarketContext } from '@/lib/ai';
@@ -11,10 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { NYClock } from '@/components/ny-clock';
 import { Layers, ArrowUpRight } from 'lucide-react';
 
-
-
-export const dynamic = 'force-dynamic'; // Use dynamic rendering
-export const revalidate = 0; // Don't cache
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 async function Dashboard() {
   let context: { text: string; bias: 'neutral' | 'bullish' | 'bearish' } = {
@@ -26,25 +23,30 @@ async function Dashboard() {
   try {
     context = await getMarketContext();
     const rawNews = await scrapeForexFactory();
-
-    // Basic sorting by time (ascending) - assuming rawNews is roughly ordered
-    // In a real app we would sort by date object
     const relevantNews = rawNews.slice(0, 12);
 
-    // Analyze news (parallel)
-    const { analyzeNews } = await import('@/lib/ai');
-    news = await Promise.all(
-      relevantNews.map(async (item) => await analyzeNews(item))
+    const { analyzeNewsBatch } = await import('@/lib/ai');
+    const groupedNews: Record<string, Partial<UsdFuturesNews>[]> = {};
+
+    relevantNews.forEach(item => {
+      const time = item.eventTimeUTC || 'unknown';
+      if (!groupedNews[time]) groupedNews[time] = [];
+      groupedNews[time].push(item);
+    });
+
+    const analyzedGroups = await Promise.all(
+      Object.values(groupedNews).map(group => analyzeNewsBatch(group))
+    );
+
+    news = analyzedGroups.flat().sort((a, b) =>
+      new Date(a.eventTimeUTC).getTime() - new Date(b.eventTimeUTC).getTime()
     );
   } catch (error) {
     console.error('Dashboard data loading failed:', error);
-    // Continue with empty/default data
   }
 
   return (
     <div className="relative min-h-screen text-zinc-100 font-sans selection:bg-primary/20">
-
-      {/* Dynamic Background */}
       <div className="fixed inset-0 z-0 bg-zinc-950">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900/50 via-zinc-950 to-zinc-950" />
         <div className="absolute inset-0 liquid-bg opacity-30 mix-blend-soft-light" />
@@ -52,8 +54,6 @@ async function Dashboard() {
       </div>
 
       <div className="relative z-10 container mx-auto px-6 py-12 space-y-16">
-
-        {/* 1. Header Section */}
         <header className="flex flex-col md:flex-row justify-between items-end border-b border-white/5 pb-8">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -87,10 +87,7 @@ async function Dashboard() {
           </div>
         </header>
 
-        {/* 2. Top Grid: Context & Volatility */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-          {/* Market Context (8 cols) */}
           <div className="lg:col-span-8 glass-card rounded-2xl p-8 relative group">
             <div className="absolute top-0 right-0 p-6 opacity-20 pointer-events-none">
               <Layers className="w-24 h-24 text-white" />
@@ -103,7 +100,7 @@ async function Dashboard() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-3xl font-light text-white leading-tight">
+                <h3 className="text-xl font-medium text-zinc-200 leading-relaxed max-w-3xl">
                   {context.text}
                 </h3>
                 <div className="flex items-center gap-4 pt-2">
@@ -118,7 +115,6 @@ async function Dashboard() {
             </div>
           </div>
 
-          {/* Volatility Widget (4 cols) */}
           <div className="lg:col-span-4 glass-card rounded-2xl p-6 flex flex-col justify-between">
             <div className="flex justify-between items-start mb-4">
               <div className="flex flex-col">
@@ -133,7 +129,6 @@ async function Dashboard() {
           </div>
         </div>
 
-        {/* 3. Main Split: News & Filters */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-8 items-start">
           <NewsList initialNews={news} />
         </div>

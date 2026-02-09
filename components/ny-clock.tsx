@@ -1,3 +1,4 @@
+
 "use client"
 import { useState, useEffect } from "react"
 
@@ -5,7 +6,6 @@ export function NYClock() {
     const [time, setTime] = useState<string>("")
 
     useEffect(() => {
-        // Hydration mismatch prevention: set time only on client
         const updateTime = () => {
             const now = new Date()
             const timeString = now.toLocaleTimeString("en-US", {

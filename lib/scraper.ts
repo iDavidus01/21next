@@ -1,3 +1,4 @@
+
 import * as cheerio from 'cheerio';
 import { UsdFuturesNews, Impact } from './types';
 import { getMockNewsData } from './mock-data';
@@ -7,7 +8,6 @@ import { join } from 'path';
 const XML_URL = 'https://nfs.faireconomy.media/ff_calendar_thisweek.xml';
 const CACHE_FILE = join(process.cwd(), 'data', 'news-cache.json');
 
-// Helper to ensure data directory exists
 function ensureDataDir() {
     const dataDir = join(process.cwd(), 'data');
     if (!existsSync(dataDir)) {
@@ -15,7 +15,6 @@ function ensureDataDir() {
     }
 }
 
-// Read news from JSON cache file
 function readFromCache(): Partial<UsdFuturesNews>[] {
     try {
         if (!existsSync(CACHE_FILE)) return getMockNewsData();
@@ -29,7 +28,6 @@ function readFromCache(): Partial<UsdFuturesNews>[] {
     }
 }
 
-// Save news to JSON cache
 function saveToCache(news: Partial<UsdFuturesNews>[]) {
     try {
         ensureDataDir();
@@ -64,7 +62,6 @@ export async function scrapeForexFactory(): Promise<Partial<UsdFuturesNews>[]> {
             const el = $(element);
             const country = el.find('country').text();
 
-            // Only USD news
             if (country !== 'USD') return;
 
             const impactStr = el.find('impact').text().toLowerCase();
@@ -73,18 +70,15 @@ export async function scrapeForexFactory(): Promise<Partial<UsdFuturesNews>[]> {
             if (impactStr.includes('high')) impact = 'high';
             else if (impactStr.includes('medium')) impact = 'medium';
 
-            // Only Medium and High impact
             if (!impact) return;
 
             const title = el.find('title').text();
-            const dateStr = el.find('date').text(); // MM-DD-YYYY
-            const timeStr = el.find('time').text(); // HH:MMam/pm or "All Day"
+            const dateStr = el.find('date').text();
+            const timeStr = el.find('time').text();
 
-            // Construct UTC ISO time
             let eventTimeUTC = '';
             if (dateStr) {
                 try {
-                    // Split MM-DD-YYYY
                     const [m, d, y] = dateStr.split('-').map(Number);
                     const eventDate = new Date(y, m - 1, d);
 
@@ -100,8 +94,6 @@ export async function scrapeForexFactory(): Promise<Partial<UsdFuturesNews>[]> {
 
                             eventDate.setHours(hours, minutes, 0, 0);
 
-                            // XML time is New York time. Feb is EST (UTC-5).
-                            // We construct a string that Date() can parse correctly regardless of server timezone.
                             const pad = (n: number) => n.toString().padStart(2, '0');
                             const nyDateStr = `${y}-${pad(m)}-${pad(d)}T${pad(hours)}:${pad(minutes)}:00-05:00`;
                             eventTimeUTC = new Date(nyDateStr).toISOString();
@@ -142,4 +134,3 @@ export async function scrapeForexFactory(): Promise<Partial<UsdFuturesNews>[]> {
         return readFromCache();
     }
 }
-
