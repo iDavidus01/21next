@@ -1,16 +1,27 @@
-import { UsdFuturesNews } from './types';
+import * as cheerio from 'cheerio';
+import { UsdFuturesNews, Impact } from './types';
 import { getMockNewsData } from './mock-data';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
+
+const XML_URL = 'https://nfs.faireconomy.media/ff_calendar_thisweek.xml';
+const CACHE_FILE = join(process.cwd(), 'data', 'news-cache.json');
+
+// Helper to ensure data directory exists
+function ensureDataDir() {
+    const dataDir = join(process.cwd(), 'data');
+    if (!existsSync(dataDir)) {
+        mkdirSync(dataDir);
+    }
+}
 
 // Read news from JSON cache file
 function readFromCache(): Partial<UsdFuturesNews>[] {
     try {
-        const cachePath = join(process.cwd(), 'data', 'news-cache.json');
-        const cacheData = readFileSync(cachePath, 'utf-8');
+        if (!existsSync(CACHE_FILE)) return getMockNewsData();
+        const cacheData = readFileSync(CACHE_FILE, 'utf-8');
         const parsed = JSON.parse(cacheData);
-
-        console.log(`✅ Loaded ${parsed.news.length} news items from cache (last updated: ${parsed.lastUpdated})`);
+        console.log(`✅ Loaded ${parsed.news.length} news items from cache`);
         return parsed.news;
     } catch (error) {
         console.warn('⚠️ Failed to read cache file, using mock data:', error);
@@ -18,8 +29,117 @@ function readFromCache(): Partial<UsdFuturesNews>[] {
     }
 }
 
-export async function scrapeForexFactory(): Promise<Partial<UsdFuturesNews>[]> {
-    // Use JSON cache instead of scraping to avoid 403 errors
-    console.log('📰 Reading news from JSON cache...');
-    return readFromCache();
+// Save news to JSON cache
+function saveToCache(news: Partial<UsdFuturesNews>[]) {
+    try {
+        ensureDataDir();
+        const cacheData = {
+            lastUpdated: new Date().toISOString(),
+            news: news
+        };
+        writeFileSync(CACHE_FILE, JSON.stringify(cacheData, null, 2));
+        console.log('💾 News saved to cache.');
+    } catch (error) {
+        console.error('❌ Failed to save to cache:', error);
+    }
 }
+
+export async function scrapeForexFactory(): Promise<Partial<UsdFuturesNews>[]> {
+    console.log('🌐 Fetching live news from XML...');
+
+    try {
+        const response = await fetch(XML_URL, {
+            cache: 'no-store'
+        });
+
+        if (!response.ok) {
+            throw new Error(`FF XML returned status: ${response.status}`);
+        }
+
+        const xmlText = await response.text();
+        const $ = cheerio.load(xmlText, { xmlMode: true });
+        const newsItems: Partial<UsdFuturesNews>[] = [];
+
+        $('event').each((_, element) => {
+            const el = $(element);
+            const country = el.find('country').text();
+
+            // Only USD news
+            if (country !== 'USD') return;
+
+            const impactStr = el.find('impact').text().toLowerCase();
+            let impact: Impact | null = null;
+
+            if (impactStr.includes('high')) impact = 'high';
+            else if (impactStr.includes('medium')) impact = 'medium';
+
+            // Only Medium and High impact
+            if (!impact) return;
+
+            const title = el.find('title').text();
+            const dateStr = el.find('date').text(); // MM-DD-YYYY
+            const timeStr = el.find('time').text(); // HH:MMam/pm or "All Day"
+
+            // Construct UTC ISO time
+            let eventTimeUTC = '';
+            if (dateStr) {
+                try {
+                    // Split MM-DD-YYYY
+                    const [m, d, y] = dateStr.split('-').map(Number);
+                    const eventDate = new Date(y, m - 1, d);
+
+                    if (timeStr && !timeStr.toLowerCase().includes('day')) {
+                        const timeMatch = timeStr.match(/(\d{1,2}):(\d{2})(am|pm)/i);
+                        if (timeMatch) {
+                            let hours = parseInt(timeMatch[1]);
+                            const minutes = parseInt(timeMatch[2]);
+                            const isPM = timeMatch[3].toLowerCase() === 'pm';
+
+                            if (isPM && hours !== 12) hours += 12;
+                            if (!isPM && hours === 12) hours = 0;
+
+                            eventDate.setHours(hours, minutes, 0, 0);
+
+                            // XML time is New York time. Feb is EST (UTC-5).
+                            // We construct a string that Date() can parse correctly regardless of server timezone.
+                            const pad = (n: number) => n.toString().padStart(2, '0');
+                            const nyDateStr = `${y}-${pad(m)}-${pad(d)}T${pad(hours)}:${pad(minutes)}:00-05:00`;
+                            eventTimeUTC = new Date(nyDateStr).toISOString();
+                        } else {
+                            const pad = (n: number) => n.toString().padStart(2, '0');
+                            eventTimeUTC = new Date(`${y}-${pad(m)}-${pad(d)}T00:00:00-05:00`).toISOString();
+                        }
+                    } else {
+                        const pad = (n: number) => n.toString().padStart(2, '0');
+                        eventTimeUTC = new Date(`${y}-${pad(m)}-${pad(d)}T00:00:00-05:00`).toISOString();
+                    }
+                } catch (e) {
+                    console.warn(`Failed to parse date/time for ${title}`);
+                }
+            }
+
+            newsItems.push({
+                id: `ff-${title.replace(/\s+/g, '-').toLowerCase()}-${dateStr}`.substring(0, 80),
+                title,
+                impact,
+                eventTimeUTC,
+                forecast: el.find('forecast').text() || undefined,
+                previous: el.find('previous').text() || undefined
+            });
+        });
+
+        if (newsItems.length > 0) {
+            console.log(`✅ Scraped ${newsItems.length} live news items.`);
+            saveToCache(newsItems);
+            return newsItems;
+        }
+
+        console.warn('ℹ️ No USD news found in XML, using cache/mock.');
+        return readFromCache();
+
+    } catch (error) {
+        console.error('❌ XML Scraping failed:', error);
+        return readFromCache();
+    }
+}
+

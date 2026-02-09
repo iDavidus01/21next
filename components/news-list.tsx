@@ -30,14 +30,18 @@ export function NewsList({ initialNews }: NewsListProps) {
                 return false
             }
 
-            // Filter by session (based on time)
-            // This is a simplified version - you might want to add proper session detection
-            const hour = parseInt(item.eventTimeUTC.split(':')[0])
-            let itemSession = ""
+            // Filter by session (based on time in NY)
+            const d = new Date(item.eventTimeUTC)
+            const nyHour = parseInt(new Intl.DateTimeFormat('en-US', {
+                hour: 'numeric',
+                hour12: false,
+                timeZone: 'America/New_York'
+            }).format(d))
 
-            if (hour >= 18 || hour < 3) {
+            let itemSession = ""
+            if (nyHour >= 18 || nyHour < 3) {
                 itemSession = "Asia"
-            } else if (hour >= 3 && hour < 12) {
+            } else if (nyHour >= 3 && nyHour < 12) {
                 itemSession = "London"
             } else {
                 itemSession = "New York"

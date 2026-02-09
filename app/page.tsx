@@ -147,8 +147,8 @@ export default function Page() {
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-zinc-500 font-mono">
         <div className="animate-pulse flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          INITIALIZING ORACLE...
+          <div className="w-12 h-12 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <span className="tracking-[0.2em] text-xs">SYNCING MARKET DATA...</span>
         </div>
       </div>
     }>

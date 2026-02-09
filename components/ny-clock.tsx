@@ -29,7 +29,7 @@ export function NYClock() {
         <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             <span className="font-mono text-sm tracking-widest text-zinc-100 font-bold">
-                {time} <span className="text-zinc-500 text-[10px]">EST</span>
+                {time} <span className="text-zinc-500 text-[10px]">NY</span>
             </span>
         </div>
     )
