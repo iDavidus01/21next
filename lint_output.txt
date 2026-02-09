@@ -1,0 +1,42 @@
+
+> 21next@0.1.0 lint
+> eslint
+
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\app\page.tsx
+   4:10  warning  'scrapeForexFactory' is defined but never used                   @typescript-eslint/no-unused-vars
+  68:18  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  74:45  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\components\filter-form.tsx
+  26:5  warning  'CardFooter' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\components\news-card.tsx
+   10:15  warning  'TrendingUp' is defined but never used                           @typescript-eslint/no-unused-vars
+   10:27  warning  'AlertTriangle' is defined but never used                        @typescript-eslint/no-unused-vars
+   10:42  warning  'Info' is defined but never used                                 @typescript-eslint/no-unused-vars
+   57:48  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  102:52  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  112:17  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  112:34  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\components\ui\dropdown-menu.tsx
+  6:17  warning  'ChevronRight' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\components\ui\input.tsx
+  8:18  error  An interface declaring no members is equivalent to its supertype  @typescript-eslint/no-empty-object-type
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\components\volatility-chart.tsx
+  4:10  warning  'useMemo' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\lib\ai.ts
+  27:9  error  'output' is never reassigned. Use 'const' instead  prefer-const
+
+C:\Users\DavidSadowski\Documents\GitHub\21next\lib\scraper.ts
+  41:19  warning  'timeStr' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  66:21  warning  'dateStr' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  74:19  warning  'now' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+Ôťľ 18 problems (8 errors, 10 warnings)
+  1 error and 0 warnings potentially fixable with the `--fix` option.
+
