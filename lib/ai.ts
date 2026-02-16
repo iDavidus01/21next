@@ -3,7 +3,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { UsdFuturesNews, Bias, Volatility, Session } from './types';
 
 const anthropic = new Anthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY || '',
+    apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 const MODEL = 'claude-3-haiku-20240307';
