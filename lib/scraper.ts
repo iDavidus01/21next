@@ -95,15 +95,15 @@ export async function scrapeForexFactory(): Promise<Partial<UsdFuturesNews>[]> {
                             eventDate.setHours(hours, minutes, 0, 0);
 
                             const pad = (n: number) => n.toString().padStart(2, '0');
-                            const nyDateStr = `${y}-${pad(m)}-${pad(d)}T${pad(hours)}:${pad(minutes)}:00-05:00`;
-                            eventTimeUTC = new Date(nyDateStr).toISOString();
+                            const utcDateStr = `${y}-${pad(m)}-${pad(d)}T${pad(hours)}:${pad(minutes)}:00Z`;
+                            eventTimeUTC = new Date(utcDateStr).toISOString();
                         } else {
                             const pad = (n: number) => n.toString().padStart(2, '0');
-                            eventTimeUTC = new Date(`${y}-${pad(m)}-${pad(d)}T00:00:00-05:00`).toISOString();
+                            eventTimeUTC = new Date(`${y}-${pad(m)}-${pad(d)}T00:00:00Z`).toISOString();
                         }
                     } else {
                         const pad = (n: number) => n.toString().padStart(2, '0');
-                        eventTimeUTC = new Date(`${y}-${pad(m)}-${pad(d)}T00:00:00-05:00`).toISOString();
+                        eventTimeUTC = new Date(`${y}-${pad(m)}-${pad(d)}T00:00:00Z`).toISOString();
                     }
                 } catch (e) {
                     console.warn(`Failed to parse date/time for ${title}`);

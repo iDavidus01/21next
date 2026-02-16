@@ -1,85 +1,114 @@
 {
-  "lastUpdated": "2026-02-09T12:46:03.440Z",
+  "lastUpdated": "2026-02-16T09:12:46.781Z",
   "news": [
     {
-      "id": "ff-core-retail-sales-m/m-02-10-2026",
-      "title": "Core Retail Sales m/m",
-      "impact": "high",
-      "eventTimeUTC": "2026-02-10T18:30:00.000Z",
-      "forecast": "0.4%",
+      "id": "ff-empire-state-manufacturing-index-02-17-2026",
+      "title": "Empire State Manufacturing Index",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-17T13:30:00.000Z",
+      "forecast": "8.5",
+      "previous": "7.7"
+    },
+    {
+      "id": "ff-core-durable-goods-orders-m/m-02-18-2026",
+      "title": "Core Durable Goods Orders m/m",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-18T13:30:00.000Z",
+      "forecast": "0.3%",
       "previous": "0.5%"
     },
     {
-      "id": "ff-retail-sales-m/m-02-10-2026",
-      "title": "Retail Sales m/m",
-      "impact": "high",
-      "eventTimeUTC": "2026-02-10T18:30:00.000Z",
-      "forecast": "0.4%",
-      "previous": "0.6%"
-    },
-    {
-      "id": "ff-employment-cost-index-q/q-02-10-2026",
-      "title": "Employment Cost Index q/q",
+      "id": "ff-durable-goods-orders-m/m-02-18-2026",
+      "title": "Durable Goods Orders m/m",
       "impact": "medium",
-      "eventTimeUTC": "2026-02-10T18:30:00.000Z",
-      "forecast": "0.8%",
-      "previous": "0.8%"
+      "eventTimeUTC": "2026-02-18T13:30:00.000Z",
+      "forecast": "-1.8%",
+      "previous": "5.3%"
     },
     {
-      "id": "ff-average-hourly-earnings-m/m-02-11-2026",
-      "title": "Average Hourly Earnings m/m",
+      "id": "ff-fomc-meeting-minutes-02-18-2026",
+      "title": "FOMC Meeting Minutes",
       "impact": "high",
-      "eventTimeUTC": "2026-02-11T18:30:00.000Z",
-      "forecast": "0.3%",
-      "previous": "0.3%"
+      "eventTimeUTC": "2026-02-18T19:00:00.000Z"
     },
     {
-      "id": "ff-non-farm-employment-change-02-11-2026",
-      "title": "Non-Farm Employment Change",
-      "impact": "high",
-      "eventTimeUTC": "2026-02-11T18:30:00.000Z",
-      "forecast": "70K",
-      "previous": "50K"
-    },
-    {
-      "id": "ff-unemployment-rate-02-11-2026",
-      "title": "Unemployment Rate",
-      "impact": "high",
-      "eventTimeUTC": "2026-02-11T18:30:00.000Z",
-      "forecast": "4.4%",
-      "previous": "4.4%"
-    },
-    {
-      "id": "ff-unemployment-claims-02-12-2026",
+      "id": "ff-unemployment-claims-02-19-2026",
       "title": "Unemployment Claims",
       "impact": "high",
-      "eventTimeUTC": "2026-02-12T18:30:00.000Z",
-      "forecast": "222K",
-      "previous": "231K"
+      "eventTimeUTC": "2026-02-19T13:30:00.000Z",
+      "forecast": "229K",
+      "previous": "227K"
     },
     {
-      "id": "ff-core-cpi-m/m-02-13-2026",
-      "title": "Core CPI m/m",
+      "id": "ff-philly-fed-manufacturing-index-02-19-2026",
+      "title": "Philly Fed Manufacturing Index",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-19T13:30:00.000Z",
+      "forecast": "7.8",
+      "previous": "12.6"
+    },
+    {
+      "id": "ff-pending-home-sales-m/m-02-19-2026",
+      "title": "Pending Home Sales m/m",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-19T15:00:00.000Z",
+      "forecast": "2.4%",
+      "previous": "-9.3%"
+    },
+    {
+      "id": "ff-advance-gdp-q/q-02-20-2026",
+      "title": "Advance GDP q/q",
       "impact": "high",
-      "eventTimeUTC": "2026-02-13T18:30:00.000Z",
+      "eventTimeUTC": "2026-02-20T13:30:00.000Z",
+      "forecast": "2.8%",
+      "previous": "3.0%"
+    },
+    {
+      "id": "ff-core-pce-price-index-m/m-02-20-2026",
+      "title": "Core PCE Price Index m/m",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-20T13:30:00.000Z",
       "forecast": "0.3%",
       "previous": "0.2%"
     },
     {
-      "id": "ff-cpi-m/m-02-13-2026",
-      "title": "CPI m/m",
-      "impact": "high",
-      "eventTimeUTC": "2026-02-13T18:30:00.000Z",
-      "forecast": "0.3%",
-      "previous": "0.3%"
+      "id": "ff-advance-gdp-price-index-q/q-02-20-2026",
+      "title": "Advance GDP Price Index q/q",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-20T13:30:00.000Z",
+      "forecast": "3.2%",
+      "previous": "2.0%"
     },
     {
-      "id": "ff-cpi-y/y-02-13-2026",
-      "title": "CPI y/y",
+      "id": "ff-flash-manufacturing-pmi-02-20-2026",
+      "title": "Flash Manufacturing PMI",
       "impact": "high",
-      "eventTimeUTC": "2026-02-13T18:30:00.000Z",
-      "forecast": "2.5%",
-      "previous": "2.7%"
+      "eventTimeUTC": "2026-02-20T14:45:00.000Z",
+      "forecast": "52.1",
+      "previous": "51.9"
+    },
+    {
+      "id": "ff-flash-services-pmi-02-20-2026",
+      "title": "Flash Services PMI",
+      "impact": "high",
+      "eventTimeUTC": "2026-02-20T14:45:00.000Z",
+      "forecast": "52.8",
+      "previous": "52.5"
+    },
+    {
+      "id": "ff-new-home-sales-02-20-2026",
+      "title": "New Home Sales",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-20T15:00:00.000Z",
+      "forecast": "735K"
+    },
+    {
+      "id": "ff-new-home-sales-02-20-2026",
+      "title": "New Home Sales",
+      "impact": "medium",
+      "eventTimeUTC": "2026-02-20T15:00:00.000Z",
+      "forecast": "736K",
+      "previous": "737K"
     }
   ]
 }

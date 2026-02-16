@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -6,7 +5,7 @@ import { formatEvent } from "@/lib/utils"
 import { UsdFuturesNews } from "@/lib/types"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
-import { Bot, TrendingUp, AlertTriangle, Info } from "lucide-react"
+import { Bot, AlertTriangle } from "lucide-react"
 
 const NewsContext = React.createContext<{ news: UsdFuturesNews } | null>(null)
 
@@ -31,7 +30,11 @@ export function NewsCard({ news, children, className }: NewsCardProps) {
 
     return (
         <NewsContext.Provider value={{ news }}>
-            <Card className={`glass-card group relative overflow-hidden transition-all duration-500 ${impactColor} ${className}`}>
+            {/* 
+              Added @container to enable container queries for children 
+              Added group to enable group-hover effects
+            */}
+            <Card className={`glass-card group relative overflow-hidden transition-all duration-500 @container ${impactColor} ${className}`}>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 {children}
             </Card>
@@ -73,7 +76,8 @@ export function NewsCardMeta() {
 
     return (
         <CardContent className="py-3 relative z-10">
-            <div className="grid grid-cols-2 gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
+            {/* Use grid for larger containers, stack for smaller */}
+            <div className="grid grid-cols-1 @[200px]:grid-cols-2 gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
                 {news.previous && (
                     <div className="flex flex-col gap-1">
                         <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">Previous</span>
@@ -81,7 +85,7 @@ export function NewsCardMeta() {
                     </div>
                 )}
                 {news.forecast && (
-                    <div className="flex flex-col gap-1 border-l border-white/5 pl-4">
+                    <div className="flex flex-col gap-1 border-t @[200px]:border-t-0 @[200px]:border-l border-white/5 pt-2 @[200px]:pt-0 @[200px]:pl-4">
                         <span className="text-[10px] uppercase tracking-wider text-primary/70 font-semibold">Forecast</span>
                         <span className="font-mono text-sm text-primary font-bold">{news.forecast}</span>
                     </div>
@@ -97,12 +101,17 @@ export function NewsCardAI() {
     return (
         <CardFooter className="pt-0 pb-0 px-0 flex-col items-start mt-2 relative z-10">
             <div className="w-full bg-zinc-950/30 border-t border-white/5 p-4 backdrop-blur-sm">
-                <div className="flex items-center gap-2 w-full mb-3">
+                <div className="flex flex-wrap items-center gap-2 w-full mb-3">
                     <Bot className="w-3.5 h-3.5 text-primary animate-pulse" />
                     <span className="text-[10px] font-bold text-primary tracking-widest uppercase">AI Analysis</span>
-                    <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-blue-500/30 text-blue-400 font-mono">
-                        IMPACT: {news.aiEventScore}/10
-                    </Badge>
+
+                    {/* Hide score on very small containers */}
+                    <div className="hidden @[250px]:block">
+                        <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-blue-500/30 text-blue-400 font-mono">
+                            IMPACT: {news.aiEventScore}/10
+                        </Badge>
+                    </div>
+
                     <div className="ml-auto flex gap-1.5 opacity-80 hover:opacity-100 transition-opacity">
                         <Badge variant={news.aiBias as any} className="text-[9px] px-1.5 py-0 rounded-sm uppercase tracking-wider">
                             {news.aiBias === 'bullish' ? 'BULLISH' : news.aiBias === 'bearish' ? 'BEARISH' : 'NEUTRAL'}
@@ -115,7 +124,7 @@ export function NewsCardAI() {
 
                 <div className="relative pl-3 border-l-2 border-primary/20">
                     <p className="text-xs text-zinc-300 leading-relaxed font-mono">
-                        "{news.aiComment}"
+                        &quot;{news.aiComment}&quot;
                     </p>
                 </div>
 

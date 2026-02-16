@@ -1,7 +1,0 @@
-
-> 21next@0.1.0 build
-> next build
-
-   Ôľ▓ Next.js 15.1.7
-
-   Creating an optimized production build ...

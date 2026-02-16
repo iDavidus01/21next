@@ -102,7 +102,7 @@ export async function getMarketContext(): Promise<{ text: string, bias: Bias }> 
     }
 
     try {
-        const prompt = `Provide a very brief (2 sentences) market context for TODAY (${day}) for USD Futures (ES/NQ). 
+        const prompt = `Provide a very brief (1 sentences) market context for TODAY (${day}) for USD Futures (ES/NQ). 
         Include if it's expected to be a high or low movement day based on typically ${day} behavior and positioning.
         Return JSON: {"text": "...", "bias": "bullish" | "bearish" | "neutral"}`;
 

@@ -32,3 +32,39 @@ export function formatEvent(date: Date | string): string {
 
     return `${hour}:${minute} • ${day} ${month}`;
 }
+
+export function formatTimeNY(date: string): string {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '--:--';
+
+    return new Intl.DateTimeFormat('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'America/New_York'
+    }).format(d);
+}
+
+export function formatDateNY(date: string): string {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return 'Invalid Date';
+
+    return new Intl.DateTimeFormat('en-US', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        timeZone: 'America/New_York'
+    }).format(d);
+}
+
+export function getDateKeyNY(date: string): string {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return 'unknown';
+
+    return new Intl.DateTimeFormat('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        timeZone: 'America/New_York'
+    }).format(d);
+}

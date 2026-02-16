@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -6,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Filter, CheckCircle2, Settings2, Zap } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -51,22 +51,22 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
     }
 
     return (
-        <Card className="border-0 bg-transparent shadow-none">
-            <CardHeader className="px-0 pt-0 pb-4">
-                <CardTitle className="text-sm font-mono uppercase tracking-wider text-zinc-500 flex items-center gap-2">
+        <Card className="border-0 bg-transparent shadow-none p-4">
+            <CardHeader className="px-0 pt-0 pb-6">
+                <CardTitle className="text-sm font-mono uppercase tracking-wider text-zinc-400 flex items-center gap-2">
                     <Settings2 className="w-4 h-4" />
                     Feed Configuration
                 </CardTitle>
             </CardHeader>
-            <CardContent className="px-0">
+            <CardContent className="px-0 space-y-6">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <FormField
                             control={form.control}
                             name="sessions"
                             render={() => (
                                 <FormItem>
-                                    <FormLabel className="text-xs text-zinc-400 font-semibold mb-2 block">SESSIONS</FormLabel>
+                                    <FormLabel className="text-xs text-zinc-500 font-bold mb-3 block tracking-widest">ACTIVE SESSIONS</FormLabel>
                                     <div className="grid grid-cols-1 gap-2">
                                         {["Asia", "London", "New York"].map((item) => (
                                             <FormField
@@ -76,7 +76,12 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                                                 render={({ field }) => (
                                                     <FormItem
                                                         key={item}
-                                                        className="flex flex-row items-center space-x-3 space-y-0 bg-white/5 p-3 rounded-lg border border-white/5 transition-all hover:bg-white/10"
+                                                        className={cn(
+                                                            "flex flex-row items-center space-x-3 space-y-0 p-3 rounded-md border transition-all duration-200 cursor-pointer",
+                                                            field.value?.includes(item)
+                                                                ? "bg-primary/5 border-primary/20 shadow-[0_0_15px_rgba(var(--primary),0.05)]"
+                                                                : "bg-zinc-900/20 border-white/5 hover:bg-zinc-900/40 hover:border-white/10"
+                                                        )}
                                                     >
                                                         <FormControl>
                                                             <Checkbox
@@ -90,9 +95,13 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                                                                             )
                                                                         )
                                                                 }}
+                                                                className="border-white/20 data-[state=checked]:bg-primary data-[state=checked]:text-black"
                                                             />
                                                         </FormControl>
-                                                        <FormLabel className="font-mono text-sm cursor-pointer flex-1">
+                                                        <FormLabel className={cn(
+                                                            "font-mono text-sm cursor-pointer flex-1",
+                                                            field.value?.includes(item) ? "text-primary font-semibold" : "text-zinc-400"
+                                                        )}>
                                                             {item}
                                                         </FormLabel>
                                                     </FormItem>
@@ -110,41 +119,50 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                             name="impact"
                             render={() => (
                                 <FormItem>
-                                    <FormLabel className="text-xs text-zinc-400 font-semibold mb-2 block">IMPACT LEVEL</FormLabel>
-                                    <div className="flex gap-2">
+                                    <FormLabel className="text-xs text-zinc-500 font-bold mb-3 block tracking-widest">IMPACT LEVEL</FormLabel>
+                                    <div className="flex gap-3">
                                         {["medium", "high"].map((item) => (
                                             <FormField
                                                 key={item}
                                                 control={form.control}
                                                 name="impact"
-                                                render={({ field }) => (
-                                                    <FormItem
-                                                        key={item}
-                                                        className={`flex-1 flex flex-row items-center justify-center space-x-2 space-y-0 p-2 rounded-lg border cursor-pointer transition-all ${field.value?.includes(item)
-                                                            ? item === 'high' ? 'bg-red-950/40 border-red-500/50 text-red-200' : 'bg-yellow-950/40 border-yellow-500/50 text-yellow-200'
-                                                            : 'bg-white/5 border-white/5 text-zinc-400 hover:bg-white/10'
-                                                            }`}
-                                                    >
-                                                        <FormControl>
-                                                            <Checkbox
-                                                                checked={field.value?.includes(item)}
-                                                                className="hidden"
-                                                                onCheckedChange={(checked) => {
-                                                                    return checked
-                                                                        ? field.onChange([...field.value, item])
-                                                                        : field.onChange(
-                                                                            field.value?.filter(
-                                                                                (value) => value !== item
+                                                render={({ field }) => {
+                                                    const isChecked = field.value?.includes(item);
+                                                    const isHigh = item === 'high';
+
+                                                    return (
+                                                        <FormItem
+                                                            key={item}
+                                                            className={cn(
+                                                                "flex-1 flex flex-row items-center justify-center space-x-2 space-y-0 p-2.5 rounded-md border cursor-pointer transition-all duration-200",
+                                                                isChecked
+                                                                    ? isHigh
+                                                                        ? "bg-red-500/10 border-red-500/30 text-red-400 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                                                                        : "bg-yellow-500/10 border-yellow-500/30 text-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.1)]"
+                                                                    : "bg-zinc-900/20 border-white/5 text-zinc-500 hover:bg-zinc-900/40 hover:border-white/10"
+                                                            )}
+                                                        >
+                                                            <FormControl>
+                                                                <Checkbox
+                                                                    checked={isChecked}
+                                                                    className="hidden"
+                                                                    onCheckedChange={(checked) => {
+                                                                        return checked
+                                                                            ? field.onChange([...field.value, item])
+                                                                            : field.onChange(
+                                                                                field.value?.filter(
+                                                                                    (value) => value !== item
+                                                                                )
                                                                             )
-                                                                        )
-                                                                }}
-                                                            />
-                                                        </FormControl>
-                                                        <FormLabel className="text-xs font-bold uppercase tracking-wider cursor-pointer">
-                                                            {item}
-                                                        </FormLabel>
-                                                    </FormItem>
-                                                )}
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                            <FormLabel className="text-xs font-bold uppercase tracking-wider cursor-pointer select-none">
+                                                                {item}
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                    )
+                                                }}
                                             />
                                         ))}
                                     </div>
@@ -157,10 +175,12 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                             control={form.control}
                             name="confidenceThreshold"
                             render={({ field }) => (
-                                <FormItem>
-                                    <div className="flex justify-between items-center mb-2">
-                                        <FormLabel className="text-xs text-zinc-400 font-semibold">MIN CONFIDENCE</FormLabel>
-                                        <span className="text-xs font-mono text-primary font-bold">{field.value}%</span>
+                                <FormItem className="pt-2">
+                                    <div className="flex justify-between items-end mb-4">
+                                        <FormLabel className="text-xs text-zinc-500 font-bold tracking-widest leading-none">MIN CONFIDENCE</FormLabel>
+                                        <span className="text-xs font-mono text-primary font-bold bg-primary/10 px-2 py-0.5 rounded border border-primary/20 leading-none">
+                                            {field.value}%
+                                        </span>
                                     </div>
                                     <FormControl>
                                         <Slider
@@ -169,15 +189,15 @@ export function FilterForm({ onFilter }: { onFilter?: (data: z.infer<typeof form
                                             step={1}
                                             defaultValue={[field.value]}
                                             onValueChange={(vals) => field.onChange(vals[0])}
-                                            className="py-2"
+                                            className="[&_.bg-primary]:bg-blue-500 [&_.border-primary]:border-blue-500"
                                         />
                                     </FormControl>
                                 </FormItem>
                             )}
                         />
 
-                        <Button type="submit" className="w-full bg-primary text-black hover:bg-primary/90 font-bold tracking-wide shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:shadow-[0_0_30px_rgba(var(--primary),0.5)] transition-all">
-                            <Zap className="w-4 h-4 mr-2" />
+                        <Button type="submit" className="w-full bg-primary text-black hover:bg-white/90 font-bold tracking-wide h-10 shadow-[0_0_20px_rgba(var(--primary),0.2)] hover:shadow-[0_0_25px_rgba(var(--primary),0.3)] transition-all active:scale-[0.98]">
+                            <Zap className="w-3.5 h-3.5 mr-2" />
                             UPDATE FEED
                         </Button>
                     </form>
